@@ -9,6 +9,6 @@ namespace WebApi.DAL.Models
 
         public virtual DateTime CreatedDate { get; set; }//fecha de creacion
 
-        public virtual DateTime ModifiedDate { get; set; }//fecha de modificacion
+        public virtual DateTime? ModifiedDate { get; set; }//fecha de modificacion
     }
 }
