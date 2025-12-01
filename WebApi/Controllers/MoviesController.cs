@@ -48,7 +48,7 @@ namespace WebApi.Controllers
         public async Task<ActionResult<MovieDto>> CreateMovieAsync([FromBody] MovieCreateDto movieCreateDto)
         {
             {
-                if (!ModelState.IsValid) ;
+                if (!ModelState.IsValid) 
                 {
                     return BadRequest(ModelState);
                 }
@@ -67,7 +67,35 @@ namespace WebApi.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, "Error creating Movie");
                 }
             }
+            [HttpPost("{id:int}",Name = "UpdateMovieAsync")]
+            [ProducesResponseType(StatusCodes.Status200OK)]
+            [ProducesResponseType(StatusCodes.Status201Created)]
+            [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+            [ProducesResponseType(StatusCodes.Status409Conflict)]
 
 
-    }
+            public async Task<ActionResult<MovieDto>> UpdateMovieAsync([FromBody] UpdateMovieDto movieCreateDto, int id)
+            {
+                {
+                    if (!ModelState.IsValid)
+                    {
+                        return BadRequest(ModelState);
+                    }
+                    
+                    try
+                    {
+                        var UpdatedMovie = await _movieService.UpdateMovieAsync(dto, id);
+                        return CreatedAtRoute("GetCategoryAsync", new { id = createdMovie.Id }, createdMovie);
+                    }
+                    catch (InvalidOperationException ex) when (ex.Message.Contains("already exists"))
+                    {
+                        return Conflict(ex.Message);
+                    }
+                    catch (Exception)
+                    {
+                        return StatusCode(StatusCodes.Status500InternalServerError, "Error creating Movie");
+                    }
+                }
+
+            }
 }

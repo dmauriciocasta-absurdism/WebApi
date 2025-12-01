@@ -1,4 +1,5 @@
-﻿using WebApi.DAL.Models;
+﻿using WebApi.Controllers;
+using WebApi.DAL.Models;
 using WebApi.DAL.Models.Dtos;
 
 namespace WebApi.Services.IServices
@@ -16,5 +17,6 @@ namespace WebApi.Services.IServices
 
         Task<bool> UpdateCategoryAsingnc(Category category);
         Task<bool> DeleteCategoryAsingnc(int Id);
+        Task UpdateCategoryAsync(int id, CategoryUpdateDto categoryUpdateDto);
     }
 }

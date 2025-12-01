@@ -11,7 +11,7 @@ namespace WebApi.Services.IServices
 
         Task<bool> CreateMovieAsync(MovieCreateDto movieDto);
 
-        Task<bool> UpdateMovieAsync(int Id, Movie movieDto);
+        Task<bool> UpdateMovieAsync(int Id, MovieUpdateDto movieDto);
 
         Task<bool> DeleteMovieAsync(int Id);
 

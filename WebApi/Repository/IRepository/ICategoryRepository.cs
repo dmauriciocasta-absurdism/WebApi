@@ -1,4 +1,5 @@
 ﻿using WebApi.DAL.Models;
+using WebApi.DAL.Models.Dtos;
 
 namespace WebApi.Repository.IRepository
 {
@@ -13,7 +14,7 @@ namespace WebApi.Repository.IRepository
 
         Task<bool> CreateCategoryAsync(CategoryCreateDto categoryDto);//crea una categoria
 
-        Task<bool> UpdateCategoryAsingnc(Category category, int Id);//actualiza una categoria
-        Task<bool> DeleteCategoryAsingnc(int Id);//elimina una categoria
+        Task<bool> UpdateCategoryAsync(Category category, int Id);//actualiza una categoria
+        Task<bool> DeleteCategoryAsync(int Id);//elimina una categoria
     }
 }

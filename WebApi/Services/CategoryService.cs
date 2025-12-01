@@ -43,7 +43,7 @@ namespace WebApi.Services
             }
         }
 
-        Task<bool> ICategoryService.DeleteCategoryAsingnc(int Id)
+        Task<bool> ICategoryService.DeleteCategoryAsync(int Id)
         {
             throw new NotImplementedException();
         }
