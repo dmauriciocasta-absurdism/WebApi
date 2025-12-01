@@ -16,24 +16,25 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-        Task<bool> IMovieService.CreateMovieAsync(Movie movie)
+       public async Task<bool> IMovieService.CreateMovieAsync(Movie movie)
         {
             throw new NotImplementedException();
         }
 
-        Task<bool> IMovieService.DeleteMovieAsync(int Id)
+       public async Task<bool> IMovieService.DeleteMovieAsync(int Id)
         {
             throw new NotImplementedException();
         }
 
-        Task<Movie?> IMovieService.GetMovieByIdAsync(int Id)
+        async Task<MovieDto> IMovieService.GetMovieAsync(int Id)
         {
-            throw new NotImplementedException();
+            var movie = await _movieRepository.GetMovieAsync(Id);
+            return _mapper.Map<MovieDto>(movie);
         }
 
-        public async Task<ICollection<MovieDto>> IMovieService.GetMoviesAsync()
+         async Task<ICollection<MovieDto>> IMovieService.GetMoviesAsync()
         {
-            var movies = _movieRepository.GetMoviesAsync();
+            var movies = await _movieRepository.GetMoviesAsync();
             return _mapper.Map<ICollection<MovieDto>>(movies);
             
         }

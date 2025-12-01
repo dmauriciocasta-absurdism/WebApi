@@ -39,7 +39,8 @@ namespace WebApi.Repository
 
         public async Task<ICollection<Movie>> GetMoviesAsync()
         {
-            return await _context.Movies.AsNoTracking().OrderBy(c => c.Genre).ToListAsync();
+            var Movies = await _context.Movies.AsNoTracking().OrderBy(c => c.Genre).ToListAsync();
+            return Movies;
         }
 
         public async Task<bool> UpdateMovieAsync(Movie movie)

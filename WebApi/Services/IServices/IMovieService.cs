@@ -7,12 +7,13 @@ namespace WebApi.Services.IServices
     {
         Task<ICollection<MovieDto>> GetMoviesAsync();
 
-        Task<MovieDto?> GetMovieByIdAsync(int Id);
+        Task<MovieDto?> GetMovieAsync(int Id);
 
         Task<bool> CreateMovieAsync(Movie movie);
 
         Task<bool> UpdateMovieAsync(Movie movie);
 
         Task<bool> DeleteMovieAsync(int Id);
+        
     }
 }

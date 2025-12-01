@@ -6,7 +6,7 @@ namespace WebApi.Services.IServices
     public interface ICategoryService
     {
         Task<ICollection<CategoryDto>> GetCategoriesAsync();
-        Task<CategoryDto?> GetCategoryByIdAsync(int Id);
+        Task<CategoryDto?> GetCategoryAsync(int Id);
 
         Task<bool> CategoryExistByIdAsync(int Id);
 

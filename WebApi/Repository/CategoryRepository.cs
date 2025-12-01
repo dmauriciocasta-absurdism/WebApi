@@ -44,7 +44,8 @@ namespace WebApi.Repository
 
         public async Task<ICollection<Category>> GetCategoriesAsync()
         {
-            return await _context.Categories.AsNoTracking().OrderBy(c => c.Name).ToListAsync();
+            var categories = await _context.Categories.AsNoTracking().OrderBy(c => c.Name).ToListAsync();
+            return categories;
         }
 
         public async Task<Category?> GetCategoryAsync(int Id)

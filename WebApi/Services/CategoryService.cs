@@ -36,16 +36,17 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        public async Task<ICollection<CategoryDto>> GetCategoriesAsync()
+        public async Task<ICollection<CategoryDto>> GetCategoriesAsync()//lista de categorias
         {
-            var categories = _categoryRepository.GetCategoriesAsync();
+            var categories = await _categoryRepository.GetCategoriesAsync();
             return _mapper.Map<ICollection<CategoryDto>>(categories);
             
         }
 
-        Task<Category?> ICategoryService.GetCategoryByIdAsync(int Id)
+         async Task<CategoryDto> ICategoryService.GetCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            var category = await _categoryRepository.GetCategoryAsync(Id);
+            return _mapper.Map<CategoryDto>(category);
         }
 
         Task<bool> ICategoryService.UpdateCategoryAsingnc(Category category)
