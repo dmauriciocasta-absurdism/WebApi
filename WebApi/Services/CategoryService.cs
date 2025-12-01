@@ -26,9 +26,21 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        Task<bool> ICategoryService.CreateCategoryAsingnc(Category category)
+        public async Task<CategoryDto> ICategoryService.CreateCategoryAsync(CategoryCreateDto categoryCreateDto)
         {
-            
+         var categoryExists =   await _categoryRepository.CategoryExistByNameAsync(categoryCreateDto.Name);
+            if (categoryExists)
+            {
+                throw new InvalidOperationException($"Category already exists'{categoryCreateDto.Name}'");
+            }
+
+            var category = _mapper.Map<Category>(categoryCreateDto);
+           var categoryCreated = await _categoryRepository.CreateCategoryAsync(category);
+
+            if (!categoryCreated)
+            {
+                throw new Exception("Error creating category");
+            }
         }
 
         Task<bool> ICategoryService.DeleteCategoryAsingnc(int Id)

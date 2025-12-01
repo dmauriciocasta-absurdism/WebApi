@@ -9,11 +9,13 @@ namespace WebApi.Services.IServices
 
         Task<MovieDto?> GetMovieAsync(int Id);
 
-        Task<bool> CreateMovieAsync(Movie movie);
+        Task<bool> CreateMovieAsync(MovieCreateDto movieDto);
 
-        Task<bool> UpdateMovieAsync(Movie movie);
+        Task<bool> UpdateMovieAsync(int Id, Movie movieDto);
 
         Task<bool> DeleteMovieAsync(int Id);
-        
+
+        Task<bool> MovieExistsByNameAsync(string Name);
+
     }
 }

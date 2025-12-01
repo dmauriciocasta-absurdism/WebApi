@@ -16,9 +16,21 @@ namespace WebApi.Services
             _mapper = mapper;
         }
 
-       public async Task<bool> IMovieService.CreateMovieAsync(Movie movie)
+       public async Task<MovieDto> IMovieService.CreateMovieAsync(MovieCreateDto movieCreateDto)
         {
-            throw new NotImplementedException();
+         var movieExists =  await _movieRepository.MovieExistsByNameAsync(movieCreateDto.name);
+            if (movieExists)
+            {
+                throw new InvalidOperationException($"Movie already exists'{movieCreateDto.Name}'");
+            }
+
+            var movie = _mapper.Map<Movie>(movieCreateDto);
+            var movieCreated = await _movieRepository.CreateMovieAsync(movie);
+
+            if (!movieCreated)
+            {
+                throw new Exception("Creating movie failed on save");
+            }
         }
 
        public async Task<bool> IMovieService.DeleteMovieAsync(int Id)
@@ -26,7 +38,7 @@ namespace WebApi.Services
             throw new NotImplementedException();
         }
 
-        async Task<MovieDto> IMovieService.GetMovieAsync(int Id)
+       public async Task<MovieDto> IMovieService.GetMovieAsync(int Id)
         {
             var movie = await _movieRepository.GetMovieAsync(Id);
             return _mapper.Map<MovieDto>(movie);
