@@ -43,9 +43,18 @@ namespace WebApi.Services
             }
         }
 
-        Task<bool> ICategoryService.DeleteCategoryAsync(int Id)
+        public async Task<bool> ICategoryService.DeleteCategoryAsync(int Id)
         {
-            throw new NotImplementedException();
+            await GetCategoryByIdAsync(id);
+
+            var isDeleted = await _categoryRepository.DeleteCategoryAsync(id);
+
+            if (!isDeleted)
+            {
+                throw new Exception("Ocurrió un error al eliminar la categoría.");
+            }
+
+            return isDeleted;
         }
 
         public async Task<ICollection<CategoryDto>> GetCategoriesAsync()//lista de categorias
@@ -55,15 +64,35 @@ namespace WebApi.Services
             
         }
 
-         async Task<CategoryDto> ICategoryService.GetCategoryAsync(int Id)
+       public  async Task<CategoryDto> ICategoryService.GetCategoryAsync(int Id)
         {
             var category = await _categoryRepository.GetCategoryAsync(Id);
             return _mapper.Map<CategoryDto>(category);
         }
 
-        Task<bool> ICategoryService.UpdateCategoryAsingnc(Category category)
+     public async   Task<bool> ICategoryService.UpdateCategoryAsingnc(Category category)
         {
-            throw new NotImplementedException();
+        
+            var existingCategory = await GetCategoryByIdAsync(id);
+
+            var nameExists = await _categoryRepository.CategoryExistsByNameAsync(dto.Name);
+            if (nameExists)
+            {
+                throw new InvalidOperationException($"Ya existe una categoría con el nombre de '{dto.Name}'");
+            }
+
+
+            _mapper.Map(dto, existingCategory);
+
+ 
+            var isUpdated = await _categoryRepository.UpdateCategoryAsync(existingCategory);
+
+            if (!isUpdated)
+            {
+                throw new Exception("Ocurrió un error al actualizar la categoría.");
+            }
+
+            return _mapper.Map<CategoryDto>(existingCategory);
         }
     }
 }

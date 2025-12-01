@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using WebApi.DAL.Models;
 using WebApi.DAL.Models.Dtos;
+using WebApi.Repository;
 using WebApi.Repository.IRepository;
 using WebApi.Services.IServices;
 
@@ -35,7 +36,16 @@ namespace WebApi.Services
 
        public async Task<bool> IMovieService.DeleteMovieAsync(int Id)
         {
-            throw new NotImplementedException();
+            await GetMovieByIdAsync(id);
+
+            var isDeleted = await _movieRepository.DeleteMovieAsync(id);
+
+            if (!isDeleted)
+            {
+                throw new Exception("Ocurrió un error al eliminar la Película");
+            }
+
+            return isDeleted;
         }
 
        public async Task<MovieDto> IMovieService.GetMovieAsync(int Id)
@@ -51,9 +61,30 @@ namespace WebApi.Services
             
         }
 
-        Task<bool> IMovieService.UpdateMovieAsync(Movie movie)
+       public async Task<MovieDto> IMovieService.UpdateMovieAsync(MovieCreateUpdateDto Dto, int id )
         {
-            throw new NotImplementedException();
+            
+            var existingCategory = await GetCategoryByIdAsync(id);
+
+            var nameExists = await _movieRepository.MovieExistsByNameAsync(dto.Name);
+            if (nameExists)
+            {
+                throw new InvalidOperationException($"Ya existe una película con el nombre de '{dto.Name}'");
+            }
+
+           
+            _mapper.Map(dto, existingMovie);
+
+          
+            var isUpdated = await _movieRepository.UpdateMovieAsync(existingMovie);
+
+            if (!isUpdated)
+            {
+                throw new Exception("Ocurrió un error al actualizar la Película.");
+            }
+
+            
+            return _mapper.Map<MovieDto>(existingMovie);
         }
     }
 }
